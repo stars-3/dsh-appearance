@@ -1,0 +1,10 @@
+# 把本插件插进 profile 的层栈（与 dsh-guard / dsh-plugin-group-tools 同一写法）
+# 服务端：挂 /dsh-appearance/* 路由；客户端：往设置页插件区加一个「外观」Tab。
+# ⚠️ 两个字段是**两个不同的契约**（2026-09-26 踩过，见账本 E80）：
+#   · `id`   加载器条目的身份 —— 保持 dsh-appearance 不变（路由、客户端面板、测试都按它写）。
+#   · `name` **模块说明符** —— 必须等于**包名**（dsh-appearance-editor）。
+#     DSH 只把 profile 的 bundle 包按包名链接进模块回退目录；写成别的名字解析不到，
+#     现象是「装上了但 /dsh-appearance/* 全 404、面板不挂载」。
+- insert:
+    - id: dsh-appearance
+      name: 'dsh-appearance-editor'

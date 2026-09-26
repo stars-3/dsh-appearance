@@ -1,0 +1,59 @@
+{
+    "name":  "dsh-appearance-editor",
+    "version":  "0.1.2",
+    "type":  "module",
+    "main":  "lib/index.js",
+    "exports":  {
+                    ".":  "./lib/index.js",
+                    "./client":  "./client/client.js",
+                    "./cordis.patch.yml":  "./cordis.patch.yml",
+                    "./package.json":  "./package.json"
+                },
+    "files":  [
+                  "lib",
+                  "client",
+                  "cordis.patch.yml",
+                  "README.md"
+              ],
+    "dsh":  {
+                "bundle":  {
+                               "patch":  "./cordis.patch.yml"
+                           },
+                "client":  {
+                               "platform":  "web",
+                               "inject":  [
+                                              "@deepseek-ai/dsh-client-ui-settings"
+                                          ]
+                           }
+            },
+    "peerDependencies":  {
+                             "@deepseek-ai/cordis":  "*"
+                         },
+    "peerDependenciesMeta":  {
+                                 "@deepseek-ai/cordis":  {
+                                                             "optional":  true
+                                                         }
+                             },
+    "author":  "star8545",
+    "repository":  {
+                       "type":  "git",
+                       "url":  "git+https://github.com/stars-3/dsh-appearance.git"
+                   },
+    "homepage":  "https://github.com/stars-3/dsh-appearance#readme",
+    "bugs":  {
+                 "url":  "https://github.com/stars-3/dsh-appearance/issues"
+             },
+    "description":  "DSH appearance editor (client plugin): background / wallpaper / color tokens / custom CSS rules, plus auto-hiding top bar",
+    "keywords":  [
+                     "dsh",
+                     "dsh-plugin",
+                     "deepseek-harness",
+                     "appearance",
+                     "theme",
+                     "wallpaper"
+                 ],
+    "license":  "MIT",
+    "engines":  {
+                    "node":  "\u003e=20"
+                }
+}

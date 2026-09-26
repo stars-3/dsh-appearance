@@ -1,0 +1,15 @@
+# 开发/测试产物 —— 不要提交，也不要发布
+_shadow/
+_testhome/
+_backup*/
+*.log
+*.tmp
+
+# npm / 依赖（本插件没有依赖，防手滑）
+node_modules/
+
+# 作者自己的发布工具 —— 不进公开仓库（文件留在本地，双击即可用）
+Push-ToGitHub.ps1
+Push-ToGitHub.cmd
+Deprecate-OldVersions.cmd
+发布到npm.cmd

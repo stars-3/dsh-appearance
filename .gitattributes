@@ -1,0 +1,10 @@
+* text=auto
+*.ps1  -text
+*.psm1 -text
+*.cmd  -text
+*.bat  -text
+*.vbs  -text
+*.ico  binary
+*.png  binary
+*.gif  binary
+*.jpg  binary
