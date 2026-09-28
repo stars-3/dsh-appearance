@@ -1,34 +1,56 @@
-# dsh-appearance · 外观编辑器（官方桌面端 / 客户端插件）
+# dsh-appearance｜DSH 官方桌面端外观编辑器
 
-> 源码仓库：<https://github.com/stars-3/dsh-appearance> ｜ npm：`dsh-appearance-editor`
-> （作者的发布工具 `Push-ToGitHub.cmd` / `发布到npm.cmd` 留在本地、**不进公开仓库**）
+给 DeepSeek Harness 官方桌面端换背景、调配色，做自己的界面风格。
 
-> 把自制外壳（`DSH-Desktop\shell-app\`，Ctrl+Alt+U）里的**外观编辑器**搬到官方桌面端。
-> 外壳那个版本长在 **Electron 主进程**里（`webContents.insertCSS` + IPC + 自绘标题栏），
-> **不能直接复制**——官方端没有自定义 CSS 钩子。所以这里重写成**客户端插件**：
-> 服务端存配置 + 生成 CSS，客户端把 CSS 贴进 `<style>` 并提供一个设置页面板。
+| 深色效果 | 浅色效果 |
+|:---:|:---:|
+| ![深色壁纸与深色输入面板](docs/images/appearance-dark.png) | ![浅色壁纸与浅色输入面板](docs/images/appearance-light.png) |
+
+安装插件后，在「设置 → 内置插件 → 外观」中选择本地壁纸、调整 18 个颜色变量，或添加受限的自定义规则；需要时可以恢复默认。它不修改 DSH 核心。
+
+**适合你，如果：**你想给桌面端换壁纸、调整界面配色，或微调特定控件的外观。
 
 ## 能做什么
 
 | 能力 | 说明 |
 |---|---|
-| 背景纯色 | 12 个预设 + 任意 `#rrggbb` / `rgba(...)`；同时写进 `--dsw-alias-bg-base` 与 `--dsw-specific-sidebar-fill`（只画 html/body 会被 DSH 容器盖住） |
-| 壁纸 | 选本地图片（PNG / JPEG / GIF 动图 / WebP / BMP），铺法 cover/contain/repeat、调暗 0–80%、模糊 0–20px、面板不透明度 0.3–1；大图先用 canvas 缩到 ≤2560px |
-| 颜色变量 | 18 个 token（含 4 个 `--dsw-specific-*`：侧栏/菜单/输入框/气泡底色——它们不走 alias，必须单独改） |
-| 自定义规则 | 「读取页面类名」扫当前界面真实类名 → 选属性填值 → 生成 `[class*="类名"] { 属性: 值 !important }`；属性与取值都过**白名单**，上限 200 条 |
-| 恢复默认 | 一条命令回到出厂状态 |
+| 背景 | 12 个纯色预设或自定义颜色；可选择本地壁纸并调整铺法、暗度、模糊与面板透明度 |
+| 配色 | 调整 18 个颜色变量，覆盖侧栏、菜单、输入框和气泡等位置 |
+| 自定义规则 | 读取当前页面类名后，从属性白名单中添加规则，最多 200 条 |
+| 恢复默认 | 清除自定义效果，回到默认外观 |
 
-**没搬过来的（官方端没有对应能力，见迁移文档 §9.5）**：无边框标题栏、顶栏自动隐藏
-（依赖外壳主进程 `screen.getCursorScreenPoint()` + `-webkit-app-region:drag`）、托盘菜单、
-`Ctrl+Alt+U` 热键、「打开皮肤文件」按钮。
+<details>
+<summary>查看编辑器截图：背景设置与颜色变量</summary>
 
-## 装
+![背景与壁纸设置界面](docs/images/editor-background.png)
 
-**npm（推荐，升级最省事）**：
+截图中可见的“顶栏自动隐藏”开关目前效果不可靠，暂不作为已支持功能。
+
+![颜色变量设置界面](docs/images/editor-colors.png)
+
+</details>
+
+## 安装
+
+通过 DSH 插件命令安装：
 
 ```powershell
 dsh plugin --profile desktop add dsh-appearance-editor
 ```
+
+安装后打开「设置 → 内置插件 → 外观」。若面板尚未出现，重启 DSH 官方桌面端。卸载和本地源码安装见下文。
+
+## 兼容与限制
+
+- 面向 Windows 上的 DSH 官方桌面端；需要 Node.js 20 或更新版本。
+- 不提供无边框标题栏、托盘菜单或应用级 `Ctrl+Alt+U` 热键。顶栏自动隐藏虽有设置开关，但当前效果不可靠，暂不作为可用能力。
+- 自定义规则依赖当前页面类名；DSH 更新后，类名变化时可能需要重新选择目标。
+
+## 开发与排错
+
+这个插件把原先自制外壳（`DSH-Desktop\shell-app\`）中的外观编辑器迁移到 DSH 官方桌面端。原版依赖 Electron 主进程的 `webContents.insertCSS`、IPC 和自绘标题栏，不能直接复制；本插件改用服务端存储配置并生成 CSS，客户端将 CSS 加入 `<style>`，同时提供设置面板。
+
+**源码仓库：**<https://github.com/stars-3/dsh-appearance> · **npm 包：**`dsh-appearance-editor`
 
 **本地源码**（开发用）：
 
